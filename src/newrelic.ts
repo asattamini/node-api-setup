@@ -9,11 +9,11 @@ exports.config = {
     /**
      * Array of application names.
      */
-    app_name: ['node-api'],
+    app_name: [process.env.NR_APP_NAME],
     /**
      * Your New Relic license key.
      */
-    license_key: '88da0ffdb849f227436b066758b577866595NRAL',
+    license_key: process.env.NEW_RELIC_KEY,
     logging: {
         /**
          * Level at which to log. 'trace' is most useful to New Relic when diagnosing
@@ -33,7 +33,7 @@ exports.config = {
             /**
              * Toggles whether the agent gathers log records for sending to New Relic.
              */
-            enabled: true,
+            enabled: false,
         },
     },
     attributes: {

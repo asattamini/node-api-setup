@@ -1,6 +1,6 @@
-import 'newrelic';
 import * as dotenv from 'dotenv';
 dotenv.config();
+import 'newrelic';
 import http from 'http';
 import terminate from './terminate';
 import app from './app';

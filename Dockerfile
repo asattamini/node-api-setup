@@ -35,6 +35,7 @@ RUN chown -R node:node /opt/node-server/
 COPY --chown=node:node package*.json ./
 
 COPY --from=0 --chown=node:node /opt/node-server/build .
+COPY --from=0 --chown=node:node /opt/node-server/pages/ ./pages/
 
 RUN npm install --production
 

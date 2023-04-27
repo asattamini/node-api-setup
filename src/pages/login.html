@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .login-container {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+    }
+    label, input {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Login</h1>
+    <label for="">Email:</label>
+    <input id="email" type="text">
+    <label for="">Senha</label>
+    <input id="password" type="password">
+    <button id="sendBtn">Enviar</button>
+  </div>
+  <script>
+    const send = document.getElementById('sendBtn');
+    send.addEventListener('click', () => {
+      const input = checkInput();
+      if(!input) {
+        alert('Por favor, insira email e senha')
+        return
+      }
+
+      fetch('/login', {
+        method: "POST",
+        body: JSON.stringify(input),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        }
+      }).then(resp => resp.json()).then(
+        (response) => {
+          if (!response.success) {
+          alert('Não autorizado...')
+        } else {
+          window.location.href= `${input.redirectUri}?code=${response.code}&state=${input.state}`
+        }
+      }  
+      )
+    })
+    function checkInput() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      let params = (new URL(document.location)).searchParams;
+      let redirectUri = params.get("redirect_uri");
+      let state = params.get("state");
+      if (email === '' || password === '') {
+        return false
+      }
+      return {email, password, redirectUri, state}
+    }
+  </script>
+</body>
+</html>
